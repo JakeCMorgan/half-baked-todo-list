@@ -42,11 +42,19 @@ async function displayTodos() {
     // fetch the user's todos from supabase
     const todos = await getTodos();
     // loop through the user's todos
-    // for each todo, render a new todo DOM element using your render function
-    // then add an event listener to each todo
-    // on click, update the todo in supabase
-    // then (shockingly!) call displayTodos() to refresh the list
-    // append the rendered todo DOM element to the todosEl
+    for (let todo of todos) {
+        // for each todo, render a new todo DOM element using your render function
+        const todoEl = renderTodo(todo);
+        // then add an event listener to each todo
+        todoEl.addEventListener('click', async () => {
+            // on click, update the todo in supabase
+            await completeTodo(todo.id);
+            // then (shockingly!) call displayTodos() to refresh the list
+            displayTodos();
+        });
+        // append the rendered todo DOM element to the todosEl
+        todosEl.append(todoEl);
+    }
 }
 
 window.addEventListener('load', async () => {
