@@ -18,22 +18,35 @@ const deleteButton = document.querySelector('.delete-button');
 // let some todo state (an array)
 
 todoForm.addEventListener('submit', async (e) => {
-    // on submit, 
+    // on submit,
+    e.preventDefault();
+
+    const formData = new FormData(todoForm);
+
+    const todo = formData.get('todo');
+
     // create a todo in supabase using for data
+    await createTodo(todo);
+
     // reset the form DOM element
+    todoForm.reset();
+
     // and display the todos
+    displayTodos();
 });
 
 async function displayTodos() {
     // clear the container (.textContent = '')
-    // fetch the user's todos from supabase
+    todosEl.textContent = '';
 
+    // fetch the user's todos from supabase
+    const todos = await getTodos();
     // loop through the user's todos
-        // for each todo, render a new todo DOM element using your render function
-        // then add an event listener to each todo
-            // on click, update the todo in supabase
-            // then (shockingly!) call displayTodos() to refresh the list
-        // append the rendered todo DOM element to the todosEl
+    // for each todo, render a new todo DOM element using your render function
+    // then add an event listener to each todo
+    // on click, update the todo in supabase
+    // then (shockingly!) call displayTodos() to refresh the list
+    // append the rendered todo DOM element to the todosEl
 }
 
 window.addEventListener('load', async () => {
